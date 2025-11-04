@@ -111,7 +111,7 @@ function locomotiveAnimation() {
         el: document.querySelector("#main"),
         smooth: true,
         tablet: { smooth: true },
-        smartphone: { smooth: true }
+        smartphone: { smooth: false }
     });
 
     locoScroll.on("scroll", ScrollTrigger.update);
@@ -295,14 +295,14 @@ function mobileMenuAnimation() {
     function openMenu() {
         hamburger.classList.add("active");
         mobileMenu.classList.add("active");
-        document.body.style.overflow = "hidden";
+        document.body.classList.add("menu-open");
     }
 
     // Close menu function
     function closeMenu() {
         hamburger.classList.remove("active");
         mobileMenu.classList.remove("active");
-        document.body.style.overflow = "auto";
+        document.body.classList.remove("menu-open");
     }
 }
 
