@@ -26,6 +26,13 @@ body {
     position: relative;
 }
 
+/* Prevent body scroll when mobile menu is open */
+body.menu-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+}
+
 /* ==================== COSMIC BACKGROUND ==================== */
 #cosmic-canvas {
     position: fixed;
@@ -202,7 +209,8 @@ nav button svg {
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 1002;
+    position: relative;
 }
 
 .hamburger span {
@@ -236,7 +244,7 @@ nav button svg {
     background: rgba(0, 0, 0, 0.98);
     backdrop-filter: blur(20px);
     border-left: 1px solid rgba(139, 92, 246, 0.3);
-    z-index: 999;
+    z-index: 1001;
     transition: right 0.5s cubic-bezier(0.76, 0, 0.24, 1);
     display: flex;
     flex-direction: column;
@@ -249,11 +257,17 @@ nav button svg {
     right: 0;
 }
 
+.mobile-menu * {
+    pointer-events: auto;
+}
+
 .mobile-menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 50px;
+    position: relative;
+    z-index: 1003;
 }
 
 .mobile-menu-header h1 {
@@ -261,6 +275,7 @@ nav button svg {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    flex: 1;
 }
 
 .mobile-close-btn {
@@ -276,12 +291,25 @@ nav button svg {
     justify-content: center;
     transition: all 0.3s ease;
     color: #fff;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1003;
+}
+
+.mobile-close-btn i {
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
 }
 
 .mobile-close-btn:hover {
     background: #8b5cf6;
     transform: rotate(90deg);
     box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+}
+
+.mobile-close-btn:active {
+    transform: scale(0.95);
 }
 
 .mobile-nav {
@@ -292,7 +320,7 @@ nav button svg {
 }
 
 .mobile-nav-link {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #fff;
     text-decoration: none;
@@ -317,8 +345,9 @@ nav button svg {
     display: block;
     color: #8b5cf6;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 20px;
+    word-break: break-word;
 }
 
 .mobile-social {
@@ -337,6 +366,10 @@ nav button svg {
     color: #fff;
     text-decoration: none;
     transition: all 0.3s ease;
+}
+
+.mobile-social a i {
+    color: #fff;
 }
 
 .mobile-social a:hover {
@@ -374,6 +407,15 @@ nav button svg {
     text-shadow: 0 0 80px rgba(139, 92, 246, 0.5);
 }
 
+.hero-subtitle {
+    text-align: center;
+    font-weight: 400;
+    margin-top: 4vh;
+    font-size: 1.1vw;
+    opacity: 0.8;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
 .cosmic-orb {
     display: inline-block;
     width: 7vw;
@@ -387,15 +429,6 @@ nav button svg {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-}
-
-#page1 p {
-    text-align: center;
-    font-weight: 400;
-    margin-top: 4vh;
-    font-size: 1.1vw;
-    opacity: 0.8;
-    font-family: 'Space Grotesk', sans-serif;
 }
 
 #page1-something {
@@ -995,7 +1028,7 @@ summary::marker {
     color: #fff;
 }
 
-#blue-btn h4 i {
+#blue-btn i {
     font-size: 1.2vw;
     font-weight: 100;
     margin-left: 0.7vw;
@@ -1253,6 +1286,16 @@ summary::marker {
 }
 
 @media (max-width: 968px) {
+    /* Hide scrollbar for mobile */
+    body::-webkit-scrollbar {
+        display: none;
+    }
+    
+    body {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
     nav {
         padding: 20px;
         height: 70px;
@@ -1271,6 +1314,10 @@ summary::marker {
         display: flex !important;
     }
     
+    .mobile-menu {
+        max-width: 100%;
+    }
+    
     #page1 {
         padding: 0 20px;
     }
@@ -1278,15 +1325,19 @@ summary::marker {
     #page1 h1 {
         font-size: 13vw;
         line-height: 13vw;
+        text-align: center;
+        letter-spacing: -2px;
     }
     
     .cosmic-orb {
         width: 10vw;
         height: 10vw;
+        margin: 0 0.5vw;
     }
     
-    #page1 p {
+    .hero-subtitle {
         font-size: 16px;
+        padding: 0 10px;
     }
     
     #page1-something {
@@ -1294,16 +1345,18 @@ summary::marker {
     }
     
     #page1-something h4 {
-        font-size: 13px;
-        padding: 10px 16px;
+        font-size: 12px;
+        padding: 8px 14px;
     }
     
     #moving-div {
-        width: 90%;
+        width: 100%;
+        bottom: 5%;
     }
     
     #moving-div .move img {
-        height: 18px;
+        height: 20px;
+        margin: 0 15px;
     }
     
     #page2 {
@@ -1317,16 +1370,22 @@ summary::marker {
     }
     
     #page2-left p {
-        font-size: 13px;
+        font-size: 12px;
     }
     
     #page2-left h5 {
-        font-size: 17px;
+        font-size: 16px;
         width: 100%;
     }
     
+    .right-elem {
+        padding-top: 20px;
+        padding-bottom: 30px;
+    }
+    
     .right-elem h2 {
-        font-size: 22px;
+        font-size: 20px;
+        line-height: 1.4;
     }
     
     .right-elem img {
@@ -1334,20 +1393,22 @@ summary::marker {
     }
     
     .page3-center .icon {
-        padding: 70px;
+        padding: 60px;
     }
     
     .page3-center .icon i {
-        font-size: 45px;
+        font-size: 40px;
     }
     
     .page3-center h5 {
-        font-size: 15px;
+        font-size: 14px;
+        padding: 12px 24px;
     }
     
     .section {
         flex-direction: column;
-        padding: 80px 20px;
+        padding: 60px 20px;
+        min-height: auto;
     }
     
     .sec-left,
@@ -1355,16 +1416,21 @@ summary::marker {
         width: 100%;
     }
     
+    .sec-left {
+        padding-top: 20px;
+    }
+    
     .sec-left h2 {
-        font-size: 32px;
+        font-size: 28px;
     }
     
     .sec-left p {
-        font-size: 17px;
+        font-size: 16px;
     }
     
     .sec-right {
-        min-height: 350px;
+        min-height: 300px;
+        border-radius: 20px;
     }
     
     #page5 {
@@ -1386,7 +1452,7 @@ summary::marker {
     }
     
     #page5-right > p {
-        font-size: 22px;
+        font-size: 20px;
     }
     
     #page5-right > p span {
@@ -1395,16 +1461,19 @@ summary::marker {
     }
     
     #page5-content h1 {
-        font-size: 36px;
+        font-size: 32px;
     }
     
     #page5-content #flex h4 {
-        font-size: 13px;
+        font-size: 12px;
+        padding: 10px 18px;
     }
     
     .page5-elem {
         flex-direction: column;
-        gap: 25px;
+        gap: 20px;
+        padding-top: 25px;
+        padding-bottom: 40px;
     }
     
     .page5-elem p {
@@ -1413,11 +1482,11 @@ summary::marker {
     }
     
     .page5-elem h3 {
-        font-size: 22px;
+        font-size: 20px;
     }
     
     .page5-elem i {
-        font-size: 22px;
+        font-size: 20px;
     }
     
     #page6 {
@@ -1425,13 +1494,14 @@ summary::marker {
     }
     
     #page6 > h1 {
-        font-size: 36px;
+        font-size: 32px;
         line-height: 1.3;
-        padding: 0 0 50px 0;
+        padding: 0 0 40px 0;
     }
     
     #page6-content {
         flex-direction: column;
+        padding: 40px 0;
     }
     
     #blue-btn {
@@ -1440,7 +1510,11 @@ summary::marker {
     }
     
     #blue-btn h4 {
-        font-size: 15px;
+        font-size: 14px;
+    }
+    
+    #blue-btn i {
+        font-size: 18px;
     }
     
     #page6-content #right-6 {
@@ -1448,7 +1522,7 @@ summary::marker {
     }
     
     #page6-content #right-6 p {
-        font-size: 17px;
+        font-size: 16px;
     }
     
     #page6-bottom {
@@ -1459,23 +1533,32 @@ summary::marker {
         width: 100% !important;
         border-right: none !important;
         border-bottom: 1px solid rgba(139, 92, 246, 0.2);
-        padding: 35px 15px;
+        padding: 30px 0;
+    }
+    
+    .btm6-parts:last-child {
+        border-bottom: none;
     }
     
     .btm6-parts h5 {
-        font-size: 15px;
+        font-size: 14px;
+        margin-bottom: 20px;
     }
     
     .btm6-parts h4 {
-        font-size: 15px;
+        font-size: 14px;
         width: 100%;
-        padding: 12px 18px;
+        padding: 12px 16px;
     }
     
     .btm6-parts h4 span {
-        width: 28px;
-        height: 28px;
-        font-size: 13px;
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        min-height: 26px;
+        font-size: 12px;
+        padding: 0;
+        margin-right: 12px;
     }
     
     #btm6-part2 h4:nth-child(2),
@@ -1493,18 +1576,27 @@ summary::marker {
     
     .footer-top {
         grid-template-columns: 1fr;
-        gap: 45px;
+        gap: 40px;
+        padding-bottom: 40px;
+    }
+    
+    .footer-brand h1 {
+        font-size: 2rem;
+    }
+    
+    .footer-brand p {
+        font-size: 0.95rem;
     }
     
     .footer-bottom {
         flex-direction: column;
-        gap: 25px;
+        gap: 20px;
         text-align: center;
     }
     
     .footer-links {
         flex-direction: column;
-        gap: 18px;
+        gap: 15px;
     }
 }
 
@@ -1514,32 +1606,45 @@ summary::marker {
         height: 65px;
     }
     
+    nav h1 {
+        font-size: 16px;
+    }
+    
     #page1 h1 {
-        font-size: 16vw;
-        line-height: 16vw;
-        letter-spacing: -2px;
+        font-size: 14vw;
+        line-height: 14vw;
+        letter-spacing: -1.5px;
     }
     
     .cosmic-orb {
-        width: 13vw;
-        height: 13vw;
+        width: 11vw;
+        height: 11vw;
     }
     
-    #page1 p br {
+    .hero-subtitle {
+        font-size: 14px;
+    }
+    
+    .hero-subtitle br {
         display: none;
     }
     
     #page1-something h4 {
-        font-size: 12px;
-        padding: 8px 14px;
+        font-size: 11px;
+        padding: 7px 12px;
     }
     
     .mobile-nav-link {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+        padding: 12px 0;
+    }
+    
+    .mobile-menu-footer > a {
+        font-size: 0.9rem;
     }
     
     .right-elem h2 {
-        font-size: 19px;
+        font-size: 18px;
     }
     
     .right-elem h2 br {
@@ -1547,23 +1652,31 @@ summary::marker {
     }
     
     #page5-right > p {
-        font-size: 19px;
+        font-size: 18px;
     }
     
     #page5-content h1 {
-        font-size: 30px;
+        font-size: 28px;
     }
     
     #page6 > h1 {
-        font-size: 30px;
+        font-size: 28px;
     }
     
     #page6-content #right-6 p {
         font-size: 15px;
     }
+    
+    .sec-left h2 {
+        font-size: 24px;
+    }
+    
+    .sec-left p {
+        font-size: 15px;
+    }
 }
 
-/* Smooth scroll fix for mobile */
+/* Disable locomotive scroll on mobile */
 @media (max-width: 968px) {
     html.has-scroll-smooth {
         overflow: auto !important;
@@ -1573,22 +1686,28 @@ summary::marker {
         overflow-x: hidden;
         overflow-y: auto;
     }
+    
+    #main {
+        overflow: visible !important;
+    }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 12px;
-}
+/* Custom Scrollbar - Desktop Only */
+@media (min-width: 969px) {
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
 
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.9);
-}
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.9);
+    }
 
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 6px;
-}
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 6px;
+    }
 
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
 }
